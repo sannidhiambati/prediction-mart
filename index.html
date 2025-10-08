@@ -24,6 +24,10 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             background-color: var(--background-dark);
@@ -40,7 +44,8 @@
         }
 
         header {
-            background-color: var(--background-dark);
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
             padding: 20px 0;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
@@ -84,11 +89,12 @@
             border-radius: 6px;
             text-decoration: none;
             font-weight: 700;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-
+        
         .cta-button:hover {
             background-color: #67CFFB;
+            transform: translateY(-2px);
         }
 
         .hero {
@@ -159,8 +165,13 @@
             margin-bottom: 15px;
         }
 
-        .card p {
+        .card p, .card ul {
             color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .card ul {
+            padding-left: 20px;
         }
 
         .persona-card .persona-title {
@@ -241,6 +252,82 @@
             color: var(--text-secondary);
         }
 
+        /* Payoff Calculator Styles */
+        .calculator-widget {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--background-dark);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--background-light);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .calculator-widget button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-blue);
+            color: var(--background-dark);
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .calculator-widget button:hover {
+            background-color: #67CFFB;
+        }
+        
+        #calculator-results {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        #calculator-results p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        #calculator-results span {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profit {
+            color: var(--accent-green) !important;
+        }
+
+        .error {
+            color: var(--accent-red) !important;
+            text-align: center;
+        }
+
         footer {
             background-color: var(--background-light);
             text-align: center;
@@ -261,7 +348,7 @@
             h2 {
                 font-size: 2rem;
             }
-            .two-column-layout {
+            .two-column-layout, .steps-container {
                 flex-direction: column;
             }
             .nav-links {
@@ -279,12 +366,14 @@
                 <a href="#mission">Mission</a>
                 <a href="#how-it-works">How It Works</a>
                 <a href="#examples">Examples</a>
+                <a href="#calculator">Calculator</a>
             </div>
             <a href="#start-trading" class="cta-button">Start Trading</a>
         </nav>
     </header>
 
     <main>
+        <!-- Existing sections from before -->
         <section class="hero">
             <div class="container">
                 <h1>Trade on Your Knowledge. Profit from Your Foresight.</h1>
@@ -415,6 +504,28 @@
                 </div>
             </div>
         </section>
+
+        <!-- NEW WIDGET SECTION -->
+        <section id="calculator">
+            <div class="container">
+                <h2>Calculate Your Potential Payoff<span>.</span></h2>
+                <div class="calculator-widget">
+                    <div class="form-group">
+                        <label for="price-per-share">Price Per Share ($)</label>
+                        <input type="number" id="price-per-share" placeholder="e.g., 0.65" step="0.01" min="0.01" max="0.99">
+                    </div>
+                    <div class="form-group">
+                        <label for="investment-amount">Your Investment ($)</label>
+                        <input type="number" id="investment-amount" placeholder="e.g., 100" step="1" min="1">
+                    </div>
+                    <button id="calculate-btn">Calculate Payoff</button>
+                    <div id="calculator-results">
+                        <!-- Results will be displayed here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
     
     <footer>
@@ -423,6 +534,45 @@
             <p>Trading involves risk. This is a fictional platform for illustrative purposes.</p>
         </div>
     </footer>
+
+    <script>
+        // JavaScript for the Payoff Calculator Widget
+        const calculateBtn = document.getElementById('calculate-btn');
+        const priceInput = document.getElementById('price-per-share');
+        const investmentInput = document.getElementById('investment-amount');
+        const resultsDiv = document.getElementById('calculator-results');
+
+        calculateBtn.addEventListener('click', () => {
+            const price = parseFloat(priceInput.value);
+            const investment = parseFloat(investmentInput.value);
+
+            // --- Validation ---
+            if (isNaN(price) || isNaN(investment)) {
+                resultsDiv.innerHTML = `<p class="error">Please enter valid numbers in both fields.</p>`;
+                return;
+            }
+            if (price <= 0 || price >= 1) {
+                resultsDiv.innerHTML = `<p class="error">Price per share must be between $0.01 and $0.99.</p>`;
+                return;
+            }
+            if (investment <= 0) {
+                resultsDiv.innerHTML = `<p class="error">Investment amount must be a positive number.</p>`;
+                return;
+            }
+
+            // --- Calculation ---
+            const numberOfShares = investment / price;
+            const potentialPayout = numberOfShares * 1.00; // Each correct share pays out $1
+            const netProfit = potentialPayout - investment;
+
+            // --- Display Results ---
+            resultsDiv.innerHTML = `
+                <p>Number of Shares You Can Buy: <span>${numberOfShares.toFixed(2)}</span></p>
+                <p>Total Potential Payout: <span>$${potentialPayout.toFixed(2)}</span></p>
+                <p>Potential Net Profit: <span class="profit">$${netProfit.toFixed(2)}</span></p>
+            `;
+        });
+    </script>
 
 </body>
 </html>
