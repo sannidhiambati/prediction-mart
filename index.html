@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PredictionMart - Trade on the Future</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --background-dark: #0F172A;
+            --background-light: #1E293B;
+            --text-primary: #E2E8F0;
+            --text-secondary: #94A3B8;
+            --accent-blue: #38BDF8;
+            --accent-green: #34D399;
+            --accent-red: #F87171;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--background-dark);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-blue);
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .cta-button {
+            background-color: var(--accent-blue);
+            color: var(--background-dark);
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #67CFFB;
+        }
+
+        .hero {
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #FFFFFF;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-gray {
+            background-color: var(--background-light);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h2 span {
+            color: var(--accent-blue);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--background-dark);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+        }
+
+        .persona-card .persona-title {
+            font-style: italic;
+            color: var(--accent-blue);
+            margin-top: 10px;
+        }
+        
+        .two-column-layout {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .two-column-layout > div {
+            flex: 1;
+        }
+        
+        .two-column-layout .text-content h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .two-column-layout .text-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #0d121f;
+            color: #cdd6f4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap;
+        }
+        
+        .code-block .comment { color: #6c7086; }
+        .code-block .keyword { color: #cba6f7; }
+        .code-block .string { color: #a6e3a1; }
+        .code-block .number { color: #f9e2af; }
+        
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            position: relative;
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: var(--background-dark);
+            color: var(--accent-blue);
+            border: 2px solid var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .step h4 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        
+        .step p {
+            color: var(--text-secondary);
+        }
+
+        footer {
+            background-color: var(--background-light);
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            .two-column-layout {
+                flex-direction: column;
+            }
+            .nav-links {
+                display: none; /* Simple mobile solution */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Prediction<span>Mart</span></a>
+            <div class="nav-links">
+                <a href="#mission">Mission</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#examples">Examples</a>
+            </div>
+            <a href="#start-trading" class="cta-button">Start Trading</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Trade on Your Knowledge. Profit from Your Foresight.</h1>
+                <p>PredictionMart is the next-generation marketplace for trading on the outcomes of real-world events. Turn your insights into investments and forecast the future of finance, technology, politics, and more.</p>
+                <a href="#start-trading" class="cta-button">Explore Markets</a>
+            </div>
+        </section>
+
+        <section id="mission" class="section-gray">
+            <div class="container">
+                <h2>Our Mission<span>.</span></h2>
+                <div class="two-column-layout">
+                    <div class="text-content">
+                        <h3>To Empower Decision-Making Through Verifiable Forecasts.</h3>
+                        <p>We believe that aggregating the knowledge of the many creates a powerful forecasting tool. Our mission is to provide a transparent, secure, and accessible platform where anyone can price the probability of future events. By transforming public knowledge into actionable, tradable insights, we aim to build a more informed and forward-thinking world.</p>
+                    </div>
+                    <div>
+                         <div class="card">
+                             <div class="card-icon">🎯</div>
+                             <h3>Clarity & Truth</h3>
+                             <p>We create markets on objectively verifiable events, providing an unbiased source of probabilistic truth.</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="personas">
+            <div class="container">
+                <h2>Who Trades on PredictionMart<span>?</span></h2>
+                <div class="grid">
+                    <div class="card persona-card">
+                        <div class="card-icon">📈</div>
+                        <h3>The Financial Analyst</h3>
+                        <p>"I use PredictionMart to hedge my portfolio against economic events. Trading on Fed interest rate decisions or CPI data gives me a direct way to mitigate risk that traditional markets don't offer."</p>
+                        <p class="persona-title">- Alex, Quantitative Analyst</p>
+                    </div>
+                    <div class="card persona-card">
+                        <div class="card-icon">💻</div>
+                        <h3>The Tech Enthusiast</h3>
+                        <p>"I follow the tech world closely. This platform lets me put my knowledge to the test. I made a profit predicting the launch window for a new AI model. It's more engaging than just reading the news."</p>
+                        <p class="persona-title">- Ben, Software Engineer</p>
+                    </div>
+                    <div class="card persona-card">
+                        <div class="card-icon">🏛️</div>
+                        <h3>The Policy Wonk</h3>
+                        <p>"Understanding the real-world probability of legislative outcomes is crucial for my work. The markets here provide a clear, data-driven signal that's often more accurate than polls."</p>
+                        <p class="persona-title">- Chloe, Political Advisor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section-gray">
+            <div class="container">
+                <h2>How Prediction Markets Work<span>.</span></h2>
+                <div class="two-column-layout">
+                    <div class="text-content">
+                        <h3>From Question to Payout</h3>
+                        <p>A prediction market is a marketplace where you can trade contracts based on the outcome of future events. The core idea is simple: the market price of a contract reflects the crowd's collective belief about the probability of an event occurring.</p>
+                        <p>Each contract is tied to a simple Yes/No question. If you believe the event will happen, you buy "Yes" shares. If you think it won't, you buy "No" shares. When the event resolves, correct shares pay out at $1, and incorrect shares become worthless.</p>
+                    </div>
+                    <div class="code-block">
+                        <span class="comment">// The market price is a live probability</span><br>
+                        <span class="keyword">let</span> marketPrice = <span class="number">0.75</span>; <span class="comment">// 75¢ per share</span><br><br>
+                        
+                        <span class="comment">// This implies a 75% chance the event</span><br>
+                        <span class="comment">// will resolve to "Yes".</span><br>
+                        <span class="keyword">let</span> probability = marketPrice * <span class="number">100</span>; <span class="comment">// 75%</span><br><br>
+                        
+                        <span class="comment">// If the outcome is "Yes":</span><br>
+                        <span class="keyword">const</span> payout = <span class="string">"$1.00"</span>;
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="start-trading">
+            <div class="container">
+                <h2>Get Started in 3 Steps<span>.</span></h2>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Sign Up</h4>
+                        <p>Create your secure account in minutes. We prioritize your privacy and security.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>Deposit Funds</h4>
+                        <p>Add funds to your account instantly using a variety of secure payment methods.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Buy & Sell Shares</h4>
+                        <p>Browse our markets and trade on the events you understand best. Your knowledge is your edge.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="examples" class="section-gray">
+            <div class="container">
+                <h2>Example Transactions<span>.</span></h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Trade 1: Economic Data</h3>
+                        <p><strong>Market:</strong> "Will US quarterly GDP growth be above 2.5%?"</p>
+                        <p><strong>Your Analysis:</strong> You believe strong consumer spending will push growth higher, so you think the market's probability is too low.</p>
+                        <ul>
+                            <li>"Yes" shares are trading at <strong>$0.60</strong> (a 60% probability).</li>
+                            <li>You buy <strong>100 "Yes" shares</strong> for a total cost of <strong>$60.00</strong>.</li>
+                        </ul>
+                        <p><strong>Outcome:</strong> The official report is released, and GDP growth is 2.8%. The market resolves to "Yes".</p>
+                        <p><strong>Result:</strong> Your 100 shares are now worth $1.00 each, totaling $100.00. <br><strong>Your Profit:</strong> $100 (payout) - $60 (cost) = <strong style="color: var(--accent-green);">$40.00</strong>.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Trade 2: Technological Milestone</h3>
+                        <p><strong>Market:</strong> "Will SpaceX land Starship on Mars by 2030?"</p>
+                        <p><strong>Your Analysis:</strong> You think the technical challenges and timelines are vastly underestimated by the public.</p>
+                        <ul>
+                            <li>"Yes" shares are trading at <strong>$0.22</strong> (a 22% probability).</li>
+                            <li>This means "No" shares are trading at <strong>$0.78</strong> ($1.00 - $0.22).</li>
+                            <li>You buy <strong>50 "No" shares</strong> for a total cost of <strong>$39.00</strong>.</li>
+                        </ul>
+                        <p><strong>Outcome:</strong> The year 2030 passes, and the landing has not occurred. The market resolves to "No".</p>
+                        <p><strong>Result:</strong> Your 50 "No" shares are now worth $1.00 each, totaling $50.00. <br><strong>Your Profit:</strong> $50 (payout) - $39 (cost) = <strong style="color: var(--accent-green);">$11.00</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 PredictionMart. All Rights Reserved.</p>
+            <p>Trading involves risk. This is a fictional platform for illustrative purposes.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
